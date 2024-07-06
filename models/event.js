@@ -3,41 +3,40 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Band extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Event extends Model {
     static associate(models) {
-      // define association here
+      // define associations here
     }
   }
-  Band.init({
-    band_id: {
+  
+  Event.init({
+    event_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
     name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    genre: {
-        type: DataTypes.TEXT,
-        allowNull: false
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true // Assuming description can be optional
     },
-    available_start_time: {
-        type: DataTypes.DATE,
-        allowNull: false
+    start_time: {
+      type: DataTypes.DATE,
+      allowNull: false
     },
     end_time: {
-        type: DataTypes.DATE,
-        allowNull: false
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, {
     sequelize,
-    modelName: 'Band',
-    tableName: 'bands',
+    modelName: 'Event', // Capitalized to follow convention (optional)
+    tableName: 'events', // pluralize table name for convention (optional)
     timestamps: false
-  })
+  });
+
+  return Event;
+};

@@ -41,3 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'bands',
     timestamps: false
   })
+
+  return Band;
+};
