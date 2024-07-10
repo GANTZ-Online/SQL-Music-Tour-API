@@ -9,7 +9,6 @@ const { Op } = require('sequelize');
 stage.get('/', async (req, res) => {
     try {
         const foundStages = await Stage.findAll({
-            order: [['stage_name', 'ASC']], // Adjust based on your model
             where: {
                 // Example condition, adjust as needed
                 stage_name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
@@ -17,7 +16,7 @@ stage.get('/', async (req, res) => {
         });
         res.status(200).json(foundStages);
     } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json(error);
     }
 });
 
@@ -77,4 +76,4 @@ stage.get('/:id', async (req, res) => {
 
 
 // EXPORT
-module.exports = router;
+module.exports = stage;

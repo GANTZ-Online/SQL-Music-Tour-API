@@ -9,14 +9,13 @@ const { Op } = require('sequelize');
 event.get('/', async (req, res) => {
     try {
         const foundEvents = await Event.findAll({
-            order: [['start_time', 'ASC']],
             where: {
                 name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
             }
         });
         res.status(200).json(foundEvents);
     } catch (error) {
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json(error);
     }
 });
 
@@ -75,4 +74,4 @@ event.delete('/:id', async (req, res) => {
 });
 
 // EXPORT
-module.exports = router;
+module.exports = event;
