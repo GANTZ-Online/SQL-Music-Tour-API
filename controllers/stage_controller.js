@@ -1,12 +1,12 @@
 // DEPENDENCIES
 const express = require('express');
-const router = express.Router();
+const stage = express.Router();
 const db = require('../models');
 const { Stage } = db;
 const { Op } = require('sequelize');
 
 // FIND ALL STAGES
-router.get('/', async (req, res) => {
+stage.get('/', async (req, res) => {
     try {
         const foundStages = await Stage.findAll({
             order: [['stage_name', 'ASC']], // Adjust based on your model
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 });
 
 // CREATE A STAGE
-router.post('/', async (req, res) => {
+stage.post('/', async (req, res) => {
     try {
         const newStage = await Stage.create(req.body);
         res.status(201).json(newStage);
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE A STAGE
-router.put('/:id', async (req, res) => {
+stage.put('/:id', async (req, res) => {
     try {
         const stage = await Stage.findByPk(req.params.id);
         if (!stage) {
@@ -47,7 +47,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE A STAGE
-router.delete('/:id', async (req, res) => {
+stage.delete('/:id', async (req, res) => {
     try {
         const stage = await Stage.findByPk(req.params.id);
         if (!stage) {
@@ -62,7 +62,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // FIND A SPECIFIC STAGE
-router.get('/:id', async (req, res) => {
+stage.get('/:id', async (req, res) => {
     try {
         const foundStage = await Stage.findByPk(req.params.id);
         if (!foundStage) {

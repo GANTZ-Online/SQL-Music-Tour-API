@@ -1,12 +1,12 @@
 // DEPENDENCIES
 const express = require('express');
-const router = express.Router();
+const event = express.Router();
 const db = require('../models');
 const { Event } = db;
 const { Op } = require('sequelize');
 
 // FIND ALL EVENTS
-router.get('/', async (req, res) => {
+event.get('/', async (req, res) => {
     try {
         const foundEvents = await Event.findAll({
             order: [['start_time', 'ASC']],
@@ -21,9 +21,9 @@ router.get('/', async (req, res) => {
 });
 
 // FIND A SPECIFIC EVENT
-router.get('/:id', async (req, res) => {
+event.get('/:id', async (req, res) => {
     try {
-        const foundEvent = await Event.findByPk(req.params.id);
+        const foundEvent = await Event.all(req.params.id);
         if (!foundEvent) {
             res.status(404).json({ error: 'Event not found' });
         } else {
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // CREATE AN EVENT
-router.post('/', async (req, res) => {
+event.post('/', async (req, res) => {
     try {
         const newEvent = await Event.create(req.body);
         res.status(201).json(newEvent);
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
 });
 
 // UPDATE AN EVENT
-router.put('/:id', async (req, res) => {
+event.put('/:id', async (req, res) => {
     try {
         const event = await Event.findByPk(req.params.id);
         if (!event) {
@@ -60,7 +60,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE AN EVENT
-router.delete('/:id', async (req, res) => {
+event.delete('/:id', async (req, res) => {
     try {
         const event = await Event.findByPk(req.params.id);
         if (!event) {
