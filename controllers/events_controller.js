@@ -5,7 +5,7 @@ const db = require('../models');
 const { Event } = db;
 const { Op } = require('sequelize');
 
-// FIND ALL EVENTS
+// FIND ALL EVENTS BY NAME
 event.get('/', async (req, res) => {
     try {
         const foundEvents = await Event.findAll({
@@ -15,20 +15,26 @@ event.get('/', async (req, res) => {
         });
         res.status(200).json(foundEvents);
     } catch (error) {
-        res.status(500).json(error);
+        console.error('Error while fetching events:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-// FIND A SPECIFIC EVENT
-event.get('/:id', async (req, res) => {
+// FIND AN EVENT BY NAME
+event.get('/:name', async (req, res) => {
     try {
-        const foundEvent = await Event.all(req.params.id);
+        const foundEvent = await Event.findOne({
+            where: {
+                name: req.params.name
+            }
+        });
         if (!foundEvent) {
             res.status(404).json({ error: 'Event not found' });
         } else {
             res.status(200).json(foundEvent);
         }
     } catch (error) {
+        console.error('Error while fetching event:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -39,6 +45,7 @@ event.post('/', async (req, res) => {
         const newEvent = await Event.create(req.body);
         res.status(201).json(newEvent);
     } catch (error) {
+        console.error('Error while creating event:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -54,6 +61,7 @@ event.put('/:id', async (req, res) => {
             res.status(200).json(event);
         }
     } catch (error) {
+        console.error('Error while updating event:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -69,6 +77,7 @@ event.delete('/:id', async (req, res) => {
             res.status(204).send();
         }
     } catch (error) {
+        console.error('Error while deleting event:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
